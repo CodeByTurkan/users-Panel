@@ -2,18 +2,20 @@ const userData =  document.getElementById('userData')
 const newUserModal =  document.getElementById('newUserModal')
 const fullname =  document.getElementById('fullname')
 const email =  document.getElementById('email')
+const addStatus =  document.getElementById('addStatus');
+const searchStatus =  document.getElementById('searchStatus')
 
-
+let filterData = []
 async function getData() {
     const res = await fetch('https://680677f7e81df7060eb7408e.mockapi.io/user')
     const data = await res.json()
     showData(data)
+    filterData = data
     console.log(data);
  }
  getData()
 
  function showData(data) {
-    
     let code = ''
     data.forEach(elm => {
         let createdDate = elm.createdAt
@@ -21,8 +23,8 @@ async function getData() {
         // .split('-').join(':')  if you wish
         // we cut until t and now have two parts before and after t which is 0 and 1 in index, so we took 0 first part
         code += 
-            `   <div class="flex justify-between w-[95%]">
-                    <p>${elm.avatar}</p>
+            `   <div class="flex items-center justify-between w-[95%]">
+                    <img src="${elm.avatar}" alt="" class="w-12 h-12 rounded-full object-cover" >
                     <p>${elm.fullname}</p>
                     <p>${elm.email}</p>
                     <p>${elm.status}</p>
@@ -35,11 +37,26 @@ async function getData() {
             `
     });
     userData.innerHTML = code
+    
  }
 // let data = '2015.. '
 //  let fileteredDate = date
 //  let fileteredDate  = data.split('T')[0].split('-').join(':')
 //  fileteredDate  = fileteredDate.split('-').join(':')
+
+function showStatus() {
+    const search = searchStatus.value
+        if (search === '') {
+            showData(filterData)   //i dont need innethtml but its fucntion
+        }else{
+            const filtered = filterData.filter(elm =>{
+                return elm.status === search
+                // elm.status yeni mockapideki eger deyeere = olarsa
+            })
+            showData(filtered)
+        }
+}
+
 
 function newUser() {
     newUserModal.classList.remove('hidden')
@@ -52,9 +69,8 @@ function cancelChanges() {
 }
 
 // after checking that we can get data, now we can add more data.
-function saveChanges() {
-    const addStatus =  document.getElementById('addStatus');
-    console.log(addStatus.value);
+function saveChanges(e) {
+    console.log(`https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70)}`);
     
     fetch('https://680677f7e81df7060eb7408e.mockapi.io/user',{
         method:'POST',
@@ -62,6 +78,7 @@ function saveChanges() {
             'content-type' : 'application/json'
         },
         body: JSON.stringify({
+            avatar: `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70)}`,
             fullname: fullname.value,
             email: email.value,
             status: addStatus.value
@@ -70,12 +87,14 @@ function saveChanges() {
     })
     .then(res => {
         if (res.ok) {
+            getData()
+            closeModal()
             return res.json();
         }
-        throw new Error('Network response was not ok');
     })
     .then(data => {
         getData();
+        
     })
 }
 function deleteChanges(id) {
@@ -89,7 +108,6 @@ function deleteChanges(id) {
         if (res.ok) {
             return res.json();
         }
-        throw new Error('Network response was not ok');
     })
     .then(data => {
         getData();

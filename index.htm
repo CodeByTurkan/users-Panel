@@ -18,11 +18,11 @@
         <h1 class="text-4xl font-bold text-center" >User Dashboard</h1>
         <div class="mt-4 p-2 flex items-center justify-between gap-2">
             <input class="w-[40%] p-1.5 rounded-xl bg-gray-100" type="text" id="searchUser" placeholder="Search..">
-            <select name="" id="" class="w-[40%] p-1.5 rounded-xl bg-gray-100">
+            <select onchange="showStatus()" name="" id="searchStatus" class="w-[40%] p-1.5 rounded-xl bg-gray-100">
                 <option value="">All</option>
-                <option value="">Active</option>
-                <option value="">Passive</option>
-                <option value="">Blocked</option>
+                <option value="Active">Active</option>
+                <option value="Passive">Passive</option>
+                <option value="Blocked">Blocked</option>
             </select>
             <button onclick="newUser()" type="button" class="text-white bg-purple-500 hover:bg-purple-500  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">New User</button>
         </div>
@@ -40,6 +40,7 @@
             </div>
         </div>
         <!-- <div id=""> -->
+            
                 <!-- Main modal -->
                 <div id="newUserModal" tabindex="-1"  class="hidden bg-black/50 h-full overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0  max-h-full">
                     <div class="relative p-4 w-full max-w-md max-h-full">
@@ -59,7 +60,7 @@
                             </div>
                             <!-- Modal body -->
                             <div class="p-4 md:p-5">
-                                <form class="space-y-4" action="#">
+                                <div class="space-y-4">
                                     <div>
                                         <label for="fullname" class="block mb-2 text-sm font-medium text-gray-900 ">Your Full Name</label>
                                         <input type="name" name="fullname" id="fullname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 " placeholder="User" required />
@@ -78,10 +79,10 @@
                                         </select>
                                     </div>
                     
-                                    <button onclick="saveChanges()" type="submit" class="w-full text-white bg-green-600 hover:bg-green-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Save Changes</button>
-                                    <button onclick="cancelChanges()" type="button" class="w-full text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Cancel</button>
+                                    <button onclick="saveChanges()" class="w-full text-white bg-green-600 hover:bg-green-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Save Changes</button>
+                                    <button onclick="cancelChanges()" class="w-full text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Cancel</button>
                                     
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
