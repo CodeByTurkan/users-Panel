@@ -4,6 +4,7 @@ const fullname =  document.getElementById('fullname')
 const email =  document.getElementById('email')
 const addStatus =  document.getElementById('addStatus');
 const searchStatus =  document.getElementById('searchStatus')
+const searchUser =  document.getElementById('searchUser')
 
 let filterData = []
 async function getData() {
@@ -16,6 +17,8 @@ async function getData() {
  getData()
 
  function showData(data) {
+    // if (!data.length) kod = <div class="w-16 h-16 border-4 border-dashed rounded-full animate-spin dark:border-yellow-600"></div>
+    // baxirsanki arrayin ici bosdursa
     let code = ''
     data.forEach(elm => {
         let createdDate = elm.createdAt
@@ -39,6 +42,17 @@ async function getData() {
     userData.innerHTML = code
     
  }
+
+ function searchforUser() {
+    const filteredUser = searchUser.value
+    const filtered = filterData.filter(elm => {
+        return elm.fullname.toLowerCase().includes(filteredUser)
+    })
+    showData(filtered)
+ }
+ searchUser.addEventListener("input", searchforUser)
+//  ancaw lazim oldugu zaman yeni inputa nese yazanda funksiya islesin./ adi funksiya ise ancaq bir defe isleyir.
+
 // let data = '2015.. '
 //  let fileteredDate = date
 //  let fileteredDate  = data.split('T')[0].split('-').join(':')
