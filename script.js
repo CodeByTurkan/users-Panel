@@ -43,33 +43,49 @@ async function getData() {
     
  }
 
- function searchforUser() {
-    const filteredUser = searchUser.value
-    const filtered = filterData.filter(elm => {
-        return elm.fullname.toLowerCase().includes(filteredUser)
+//  function searchforUser() {
+//     const filteredUser = searchUser.value
+//     const filtered = filterData.filter(elm => {
+//         return elm.fullname.toLowerCase().includes(filteredUser)
+//     })
+//     showData(filtered)
+//  }
+//  searchUser.addEventListener("input", searchforUser)
+// //  ancaw lazim oldugu zaman yeni inputa nese yazanda funksiya islesin./ adi funksiya ise ancaq bir defe isleyir.
+
+// // let data = '2015.. '
+// //  let fileteredDate = date
+// //  let fileteredDate  = data.split('T')[0].split('-').join(':')
+// //  fileteredDate  = fileteredDate.split('-').join(':')
+
+// function showStatus() {
+//     const search = searchStatus.value
+//         if (search === '') {
+//             showData(filterData)   //i dont need innethtml but its fucntion
+//         }else{
+//             const filtered = filterData.filter(elm =>{
+//                 return elm.status === search
+//                 // elm.status yeni mockapideki eger deyeere = olarsa
+//             })
+//             showData(filtered)
+//         }
+// }
+
+
+function nameAndStatus() {
+    const search = searchStatus.value.toLowerCase()
+    const filteredUser = searchUser.value.toLowerCase()
+    
+    const filtered = filterData.filter(elm =>{
+        let chooseInput = elm.fullname.toLowerCase().includes(filteredUser)
+        let chooseSearch = search === '' || elm.status.toLowerCase() === search
+        return chooseInput && chooseSearch
     })
     showData(filtered)
- }
- searchUser.addEventListener("input", searchforUser)
-//  ancaw lazim oldugu zaman yeni inputa nese yazanda funksiya islesin./ adi funksiya ise ancaq bir defe isleyir.
-
-// let data = '2015.. '
-//  let fileteredDate = date
-//  let fileteredDate  = data.split('T')[0].split('-').join(':')
-//  fileteredDate  = fileteredDate.split('-').join(':')
-
-function showStatus() {
-    const search = searchStatus.value
-        if (search === '') {
-            showData(filterData)   //i dont need innethtml but its fucntion
-        }else{
-            const filtered = filterData.filter(elm =>{
-                return elm.status === search
-                // elm.status yeni mockapideki eger deyeere = olarsa
-            })
-            showData(filtered)
-        }
+    
 }
+searchStatus.addEventListener('input', nameAndStatus)
+searchUser.addEventListener('input', nameAndStatus);
 
 
 function newUser() {
