@@ -6,6 +6,7 @@ const addStatus =  document.getElementById('addStatus');
 const searchStatus =  document.getElementById('searchStatus')
 const searchUser =  document.getElementById('searchUser')
 
+// get data
 let filterData = []
 async function getData() {
     const res = await fetch('https://680677f7e81df7060eb7408e.mockapi.io/user')
@@ -16,6 +17,8 @@ async function getData() {
  }
  getData()
 
+
+//  showUsers on screen
  function showData(data) {
     // if (!data.length) kod = <div class="w-16 h-16 border-4 border-dashed rounded-full animate-spin dark:border-yellow-600"></div>
     // baxirsanki arrayin ici bosdursa
@@ -33,7 +36,7 @@ async function getData() {
                     <p>${elm.status}</p>
                     <p> ${filteredDate} </p>
                     <div class="flex items-center justify-between text-orange-600">
-                        <i onclick="editChanges(${elm.id})" class="fa-solid fa-pen-to-square"></i>
+                        <i onclick="cleanInput(${elm.id})" class="fa-solid fa-pen-to-square"></i>
                         <i onclick="deleteChanges(${elm.id})" class="fa-solid fa-trash px-2"></i>
                     </div>
                 </div>
@@ -42,6 +45,8 @@ async function getData() {
     userData.innerHTML = code
     
  }
+
+ 
 
 //  function searchforUser() {
 //     const filteredUser = searchUser.value
@@ -52,11 +57,6 @@ async function getData() {
 //  }
 //  searchUser.addEventListener("input", searchforUser)
 // //  ancaw lazim oldugu zaman yeni inputa nese yazanda funksiya islesin./ adi funksiya ise ancaq bir defe isleyir.
-
-// // let data = '2015.. '
-// //  let fileteredDate = date
-// //  let fileteredDate  = data.split('T')[0].split('-').join(':')
-// //  fileteredDate  = fileteredDate.split('-').join(':')
 
 // function showStatus() {
 //     const search = searchStatus.value
@@ -72,9 +72,11 @@ async function getData() {
 // }
 
 
+// filter
 function nameAndStatus() {
     const search = searchStatus.value.toLowerCase()
     const filteredUser = searchUser.value.toLowerCase()
+    // men hem verdiyimi hemde aldigimi lower  case cevirirem
     
     const filtered = filterData.filter(elm =>{
         let chooseInput = elm.fullname.toLowerCase().includes(filteredUser)
@@ -87,19 +89,24 @@ function nameAndStatus() {
 searchStatus.addEventListener('input', nameAndStatus)
 searchUser.addEventListener('input', nameAndStatus);
 
-
+// show modal
 function newUser() {
     newUserModal.classList.remove('hidden')
+    fullname.value = ''
+    email.value = ''
+    addStatus.value = 'Active'
 }
+// closemodal
 function closeModal() {
     newUserModal.classList.add('hidden')
 }
+//  cancel button in modal
 function cancelChanges() {
     newUserModal.classList.add('hidden')
 }
 
-// after checking that we can get data, now we can add more data.
-function saveChanges(e) {
+// add new users
+function saveChanges() {
     console.log(`https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70)}`);
     
     fetch('https://680677f7e81df7060eb7408e.mockapi.io/user',{
@@ -127,6 +134,9 @@ function saveChanges(e) {
         
     })
 }
+
+
+// delete users with Fetch
 function deleteChanges(id) {
     fetch(`https://680677f7e81df7060eb7408e.mockapi.io/user/${id}`,{
         method: 'DELETE',
@@ -144,7 +154,55 @@ function deleteChanges(id) {
     })
 }
 
-function editChanges(id) {
+// clean user inputs
+
+let editedId = ''
+function cleanInput(id) {
+    // elm.id = 3 - onu goturdun - sonra 3 numberle element tapdin.
+   const selectedElment =  filterData.find(item => item.id === id.toString())
+   console.log(selectedElment);
+   
+
+    // basdigim yerin id-si elmentin id-sine = olmasi.
+    newUserModal.classList.remove('hidden')
+    save.classList.add('hidden')
+    edit.classList.remove('hidden')
+
+    fullname.value = selectedElment.fullname,
+    email.value = selectedElment.email,
+    addStatus.value = selectedElment.status
+
+    editedId = selectedElment.id
+}
+
+
+// editUsers
+const save = document.getElementById('save')
+const edit = document.getElementById('edit')
+function editChanges() {
+    fetch(`https://680677f7e81df7060eb7408e.mockapi.io/user/${editedId}`,{
+        method: 'PUT',
+        headers: {
+            'content-type' : 'application/json'
+        },
+        body: JSON.stringify({
+            fullname: fullname.value,
+            email: email.value,
+            status: addStatus.value
+        })
+    })
+        .then(res => {
+            if (res.ok) {
+                res.json()
+            }
+        })
+        .then(data => {
+            getData()
+            newUserModal.classList.add('hidden')
+        })
+
     
 }
+// hansi ist duzeltmek isteyyirikse, onun  formatini ve neleri duzletmek isteyirik, fetch headers ve  bodyde gonderririk, sorna gelenn res okaydirsa cavabi jsonda  cekirik, cunki bur formatda gondermisiak ve bizim komp backdan infonu bele goturur. sonrada deyisikliyi datada cixaririq. alian melumat getdataya daxil olurki ordanda showdata oturulur. get data apidan yenilemmiss melumati elde etmek ve onu showdataya cixarmaq ucundu.
+
 

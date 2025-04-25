@@ -78,8 +78,9 @@
                                             <option value="Blocked">Blocked</option>
                                         </select>
                                     </div>
-                    
-                                    <button onclick="saveChanges()" class="w-full text-white bg-green-600 hover:bg-green-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Save Changes</button>
+                                    <button id="save" onclick="saveChanges()" class="w-full text-white bg-green-600 hover:bg-green-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Save Changes</button>
+                                    <button id="edit" onclick="editChanges()" class="hidden w-full text-white bg-green-600 hover:bg-green-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Save Changes</button>
+                                    <!-- both save changes written but they have different function. first add new user, second change added user -->
                                     <button onclick="cancelChanges()" class="w-full text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Cancel</button>
                                     
                                 </div>
